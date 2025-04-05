@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Socket.IO Chat</title>
+  <style>
+    #messages {
+      border: 1px solid #ccc;
+      padding: 10px;
+      max-height: 300px;
+      overflow-y: auto;
+      margin-bottom: 10px;
+    }
+    .message {
+      padding: 5px 0;
+      border-bottom: 1px solid #eee;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="messages"></div>
+
+  <input type="text" id="messageInput" placeholder="Type a message" />
+  <button id="sendBtn">Send</button>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+
+    const sendBtn = document.getElementById("sendBtn");
+    const messageInput = document.getElementById("messageInput");
+    const messagesDiv = document.getElementById("messages");
+
+    // 🟢 Listen for 'user-message' from server
+    socket.on("user-message", (msg) => {
+      addMessageToChat(msg);
+    });
+
+    // 🔘 Send message to server
+    sendBtn.addEventListener("click", () => {
+      const msg = messageInput.value.trim();
+      if (msg !== "") {
+        socket.emit("user-message", msg); // emit to server
+        messageInput.value = "";
+      }
+    });
+
+    // 🧱 Helper to add message to chat
+    function addMessageToChat(msg) {
+      const div = document.createElement("div");
+      div.className = "message";
+      div.textContent = msg;
+      messagesDiv.appendChild(div);
+      messagesDiv.scrollTop = messagesDiv.scrollHeight; // auto scroll
+    }
+  </script>
+
+</body>
+</html>
+sfd
