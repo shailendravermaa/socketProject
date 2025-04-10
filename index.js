@@ -9,7 +9,13 @@ app.use(cors());
 
 const server=http.createServer(app);//this line says: “Hey, make an HTTP server, and when requests come in, let Express (app) handle them.”
 
-const io=new Server(server)//web socket requests ko ye handle karega 
+//web socket requests ko ye handle karega 
+const io = new Server(server, {
+  cors: {
+    origin: '*', // ✅ Allow all origins for socket.io
+    methods: ['GET', 'POST']
+  }
+});
 
 io.on('connection',(socket)=>{//when you make connection we just console
     
