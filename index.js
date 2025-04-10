@@ -4,6 +4,8 @@ const express =require('express');
 const path=require('path');
 const app=express();//http request ko ye handle karega 
 const {Server}=require("socket.io")
+const cors=require('cors')
+app.use(cors);
 
 const server=http.createServer(app);//this line says: “Hey, make an HTTP server, and when requests come in, let Express (app) handle them.”
 
